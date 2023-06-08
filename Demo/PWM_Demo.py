@@ -9,39 +9,39 @@ if __name__ == "__main__":
 
     p = GPIO.PWM(PWM_chip, PWM_pin, frequency_Hz, Duty_Cycle_Percent)    # new PWM on channel=LED_gpio frequency=38KHz
 
-    print("turn on pwm by pressing button")
+    print("Нажмите любую кнопку для запуска PWM0/ШИМ0")
     input()
     p.start_pwm()
 
-    print("dimm pwm by pressing button")
+    print("заполнить на 50 PWM/ШИМ, нажав кнопку")
     input()
     p.duty_cycle(50)
 
-    print("change pwm frequency by pressing button")
+    print("изменить частоту PWM/ШИМ, нажав кнопку")
     input()
     p.change_frequency(500)
 
-    print("stop pwm by reducing duty cycle to 0 by pressing button")
+    print("остановить PWM/ШИМ, уменьшив до 0, нажав кнопку")
     input()
     p.stop_pwm()
 
-    print("change polarity by pressing button")
+    print("изменить полярность нажатием кнопки")
     input()
     p.pwm_polarity()
 
-    print("increase duty cycle but inverted so light will dim. press button to contunue")
+    print("увеличьте до 75, но чтобы свет был тусклым. нажмите кнопку, чтобы продолжить")
     input()
     p.duty_cycle(75)
 
-    print("duty cycle reduced press button to contunue")
+    print("уменьшить до 25, нажмите кнопку, чтобы продолжить")
     input()
     p.duty_cycle(25)
 
-    print("stop pwm (it was inverted so it shoudl be full brightness), press button to contunue")
+    print("остановите PWM/ШИМ (он был инвертирован, поэтому он должен быть на полную яркость), нажмите кнопку, чтобы продолжить")
     input()
     p.stop_pwm()
 
-    print("remove object and deactivate pwm pin, press button to contunue")
+    print("удалить объект и деактивировать вывод PWM/ШИМ, нажмите кнопку, чтобы продолжить")
     input()
     p.pwm_close()
     del p  # delete the class
