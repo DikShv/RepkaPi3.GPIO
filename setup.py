@@ -21,17 +21,17 @@ pytest_runner = ['pytest-runner'] if needs_pytest else []
 test_deps = ["mock", "pytest", "pytest-cov", "pyfakefs"]
 
 setup(
-    name="OPi.GPIO",
+    name="RepkaPi.GPIO",
     version=version,
-    author="Richard Hull",
+    author="@screatorpro",
     author_email="richard.hull@destructuring-bind.org",
-    description=("A drop-in replacement for RPi.GPIO for the Orange Pi Zero"),
+    description=("A drop-in replacement for RPi.GPIO for the Repka Pi"),
     long_description="\n\n".join([README, CONTRIB, CHANGES]),
     license="MIT",
     keywords="orange pi opi gpio",
     url="https://github.com/rm-hull/OPi.GPIO",
     download_url="https://github.com/rm-hull/OPi.GPIO/tarball/" + version,
-    packages=["OPi", "nanopi", "orangepi", "rockpi"],
+    packages=["RepkaPi"],
     setup_requires=pytest_runner,
     tests_require=test_deps,
     extras_require={

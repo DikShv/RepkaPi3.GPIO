@@ -41,4 +41,7 @@ GPIO.RISING = 1
 GPIO.FALLING = 2
 GPIO.BOTH = 3
 
+#Поддерживаемые платы
+GPIO.REPKAPI3 = 1
+
 sys.modules[__name__] = GPIO

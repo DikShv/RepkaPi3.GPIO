@@ -5,11 +5,11 @@
 """
 Importing the module
 --------------------
-To import the OPi.GPIO module:
+To import the RepkaPi.GPIO module:
 
 .. code:: python
 
-   import OPi.GPIO as GPIO
+   import RepkaPi.GPIO as GPIO
 
 By doing it this way, you can refer to it as just GPIO through the rest of your
 script.
@@ -64,7 +64,7 @@ To get round this, we use a pull up or a pull down resistor. In this way, the
 default value of the input can be set. It is possible to have pull up/down
 resistors in hardware and using software. In hardware, a 10K resistor between
 the input channel and 3.3V (pull-up) or 0V (pull-down) is commonly used. The
-OPi.GPIO module allows you to configure the SOC to do this in software:
+RepkaPi.GPIO module allows you to configure the SOC to do this in software:
 
 .. code:: python
 
@@ -110,7 +110,7 @@ there are two ways to get round this:
 
 Threaded Callbacks
 ^^^^^^^^^^^^^^^^^^
-OPi.GPIO manages a number of secondary threads for callback functions. This
+RepkaPi.GPIO manages a number of secondary threads for callback functions. This
 means that callback functions can be run at the same time as your main program,
 in immediate response to an edge.
 
@@ -185,11 +185,11 @@ possible to stop them:
 
 Outputs
 -------
-1. First set up OPi.GPIO
+1. First set up RepkaPi.GPIO
 
     .. code:: python
 
-       import OPi.GPIO as GPIO
+       import RepkaPi.GPIO as GPIO
        GPIO.setmode(GPIO.BOARD)
        GPIO.setup(12, GPIO.OUT)
 
@@ -243,11 +243,11 @@ result in more accurate PWM signal that is less resorce taxing.
 
 PWM is created in the form of an object.
 
-1. First set up OPi.GPIO and create the object
+1. First set up RepkaPi.GPIO and create the object
 
     .. code:: python
 
-       import OPi.GPIO as GPIO
+       import RepkaPi.GPIO as GPIO
        PWM_Class = GPIO.PWM(PWM_chip, PWM_pin, frequency_Hz, Duty_Cycle_Percent)
 
     Note currently you do not need to specify setmode before creating the class as for a GPIO
@@ -334,7 +334,7 @@ chip number used in PWM_chip. Some boards may have multiple chips, they will all
 This writes '0' to the file 'export' which is under pwmchip0. If the chip has a pin 0 associated with it, an object that will
 be created that can control the pwm pin. If a pin doesn't exisit an error will come up stating 'no such device'.
 As of yet I do not know how to list out all of the available pins associated with a chip, there is a list at https://linux-sunxi.org/PIO
-however not all pwm pins listed might be readily usable. For example on the OPi PC+ GPIO PA5 (physical pin 7) is listed as being PWM1 however it
+however not all pwm pins listed might be readily usable. For example on the RepkaPi PC+ GPIO PA5 (physical pin 7) is listed as being PWM1 however it
 is not accessable by default, likely it is reserved for something else and would probably require changing the DTC file before it can be accessed.
 
 The best option would be to increase the number until you find a pin. You shouldn't need to go higher than 5 for any 1 chip.
@@ -355,17 +355,19 @@ Methods
 
 import warnings
 
-from OPi.constants import IN, OUT
-from OPi.constants import LOW, HIGH                     # noqa: F401
-from OPi.constants import NONE, RISING, FALLING, BOTH   # noqa: F401
-from OPi.constants import BCM, BOARD, SUNXI, CUSTOM
-from OPi.constants import PUD_UP, PUD_DOWN, PUD_OFF     # noqa: F401
-from OPi.pin_mappings import get_gpio_pin, set_custom_pin_mappings
-from OPi import event, sysfs
+from RepkaPi.constants import IN, OUT
+from RepkaPi.constants import LOW, HIGH                     # noqa: F401
+from RepkaPi.constants import NONE, RISING, FALLING, BOTH   # noqa: F401
+from RepkaPi.constants import BCM, BOARD, SUNXI, CUSTOM, REPKAPI3
+from RepkaPi.constants import PUD_UP, PUD_DOWN, PUD_OFF     # noqa: F401
+from RepkaPi.pin_mappings import get_gpio_pin, set_custom_pin_mappings
+from RepkaPi import event, sysfs
 
 _gpio_warnings = True
 _mode = None
+_board = None
 _exports = {}
+
 
 
 def _check_configured(channel, direction=None):
@@ -376,6 +378,12 @@ def _check_configured(channel, direction=None):
     if direction is not None and direction != configured:
         descr = "input" if configured == IN else "output"
         raise RuntimeError("Channel {0} is configured for {1}".format(channel, descr))
+
+def setboard(board):
+    assert board in [REPKAPI3]
+    global _board
+    _board = board
+
 
 
 def getmode():
@@ -454,6 +462,9 @@ def setup(channel, direction, initial=None, pull_up_down=None):
                               #   chan_list = (11,12)
        GPIO.setup(chan_list, GPIO.OUT)
     """
+    if _board is None:
+        raise RuntimeError("Не выбранна версия платы")
+
     if _mode is None:
         raise RuntimeError("Mode has not been set")
 
@@ -467,7 +478,7 @@ def setup(channel, direction, initial=None, pull_up_down=None):
     else:
         if channel in _exports:
             raise RuntimeError("Channel {0} is already configured".format(channel))
-        pin = get_gpio_pin(_mode, channel)
+        pin = get_gpio_pin(_board, _mode, channel)
         try:
             sysfs.export(pin)
         except (OSError, IOError) as e:
@@ -495,7 +506,7 @@ def input(channel):
         :py:attr:`False` or :py:attr:`1` / :py:attr:`GPIO.HIGH` / :py:attr:`True`).
     """
     _check_configured(channel)  # Can read from a pin configured for output
-    pin = get_gpio_pin(_mode, channel)
+    pin = get_gpio_pin(_board, _mode, channel)
     return sysfs.input(pin)
 
 
@@ -522,7 +533,7 @@ def output(channel, state):
             output(ch, state)
     else:
         _check_configured(channel, direction=OUT)
-        pin = get_gpio_pin(_mode, channel)
+        pin = get_gpio_pin(_board, _mode, channel)
         return sysfs.output(pin, state)
 
 
@@ -562,7 +573,7 @@ def wait_for_edge(channel, trigger, timeout=-1):
            print('Edge detected on channel', channel)
     """
     _check_configured(channel, direction=IN)
-    pin = get_gpio_pin(_mode, channel)
+    pin = get_gpio_pin(_board, _mode, channel)
     if event.blocking_wait_for_edge(pin, trigger, timeout) is not None:
         return channel
 
@@ -595,7 +606,7 @@ def add_event_detect(channel, trigger, callback=None, bouncetime=None):
         if _gpio_warnings:
             warnings.warn("bouncetime is not (yet) fully supported, continuing anyway. Use GPIO.setwarnings(False) to disable warnings.", stacklevel=2)
 
-    pin = get_gpio_pin(_mode, channel)
+    pin = get_gpio_pin(_board, _mode, channel)
     event.add_edge_detect(pin, trigger, __wrap(callback, channel))
 
 
@@ -605,7 +616,7 @@ def remove_event_detect(channel):
         (:py:attr:`GPIO.BOARD`, :py:attr:`GPIO.BCM` or :py:attr:`GPIO.SUNXI`).
     """
     _check_configured(channel, direction=IN)
-    pin = get_gpio_pin(_mode, channel)
+    pin = get_gpio_pin(_board, _mode, channel)
     event.remove_edge_detect(pin)
 
 
@@ -622,7 +633,7 @@ def add_event_callback(channel, callback, bouncetime=None):
         if _gpio_warnings:
             warnings.warn("bouncetime is not (yet) fully supported, continuing anyway. Use GPIO.setwarnings(False) to disable warnings.", stacklevel=2)
 
-    pin = get_gpio_pin(_mode, channel)
+    pin = get_gpio_pin(_board, _mode, channel)
     event.add_edge_callback(pin, __wrap(callback, channel))
 
 
@@ -649,7 +660,7 @@ def event_detected(channel):
     :returns: :py:attr:`True` if an edge event was detected, else :py:attr:`False`.
     """
     _check_configured(channel, direction=IN)
-    pin = get_gpio_pin(_mode, channel)
+    pin = get_gpio_pin(_board, _mode, channel)
     return event.edge_detected(pin)
 
 
@@ -661,7 +672,7 @@ def __wrap(callback, channel):
 def cleanup(channel=None):
     """
     At the end any program, it is good practice to clean up any resources you
-    might have used. This is no different with OPi.GPIO. By returning all
+    might have used. This is no different with RepkaPi.GPIO. By returning all
     channels you have used back to inputs with no pull up/down, you can avoid
     accidental damage to your Orange Pi by shorting out the pins. Note that
     this will only clean up GPIO channels that your script has used. Note that
@@ -693,7 +704,7 @@ def cleanup(channel=None):
             cleanup(ch)
     else:
         _check_configured(channel)
-        pin = get_gpio_pin(_mode, channel)
+        pin = get_gpio_pin(_board, _mode, channel)
         event.cleanup(pin)
         sysfs.unexport(pin)
         del _exports[channel]
