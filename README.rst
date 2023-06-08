@@ -9,12 +9,17 @@ using sysfs: this allows the GPIO pins to be accessed from user space.
 
 Installation
 ----------
-.. code-block:: text
+
     sudo apt-get update
+
     sudo apt-get install python-dev git
+
     git clone https://github.com/DikShv/RepkaPi3.GPIO.git
+
     cd RepkaPi3.GPIO
+
     sudo python setup.py install
+
 
 Supported Boards
 ----------
@@ -26,11 +31,15 @@ Usage
 
 Same as RPi.GPIO but with a new function to choose Repka Pi Board.
 
-.. code-block:: text
+
     import RepkaPi.GPIO as GPIO
+
     GPIO.setboard(GPIO.REPKAPI3)
+
     GPIO.setmode(GPIO.BOARD)
+
     GPIO.output(5, 1)
+    
 
 
 Many demo is on the Demo folder
