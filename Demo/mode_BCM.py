@@ -2,24 +2,27 @@
 # -*- coding: utf-8 -*-
 
 import RepkaPi.GPIO as GPIO
-from time import sleep          # this lets us have a time delay
+from time import sleep          # позволяет выставить задержку на время
 
-GPIO.setboard(GPIO.REPKAPI3)      # Repka Pi 3
-GPIO.setmode(GPIO.BCM)          # set up BCM numbering
-GPIO.setup(4, GPIO.OUT)      # set BCM4 as an output (LED)
+GPIO.setboard(GPIO.REPKAPI3)    # Repka Pi 3
+GPIO.setmode(GPIO.BCM)          # выбираем тип обращения к GPIO по номеру BCM
+led = 4                         # устанавливаем GPIO04 для диода
+GPIO.setup(led, GPIO.OUT)       # устанавливаем диод (LED) как output
 
 try:
-  while True:
-    GPIO.output(4, 1)        # set port/pin value to 1/HIGH/True
-    sleep(0.1)
-    GPIO.output(4, 0)        # set port/pin value to 0/LOW/False
-    sleep(0.1)
-    GPIO.output(4, 1)        # set port/pin value to 1/HIGH/True
-    sleep(0.1)
-    GPIO.output(4, 0)        # set port/pin value to 0/LOW/False
-    sleep(0.5)
+    print ("Нажмите CTRL+C для завершения")
+    while True:
+        GPIO.output(led, 1)     # выставляем pin led 1/HIGH/True
+        sleep(0.1)              # задержка 0.1 секунда
+        GPIO.output(led, 0)     # выставляем pin led 0/LOW/False
+        sleep(0.1)              # задержка 0.1 секунда
+
+        GPIO.output(led, 1)     # выставляем pin led 1/HIGH/True
+        sleep(0.1)              # задержка 0.1 секунда
+        GPIO.output(led, 0)     # выставляем pin led 0/LOW/False
+        sleep(0.5)              # задержка 0.5 секунда
 
 except KeyboardInterrupt:
-  GPIO.output(sled, 0)
-  GPIO.cleanup()                # clean up after yourself
-  print ("Bye.")
+    GPIO.output(led, 0)         # выставляем pin led 0/LOW/False
+    GPIO.cleanup()              # убираем все настойки по GPIO
+    print ("Завершено")
