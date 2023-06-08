@@ -16,30 +16,17 @@ CONTRIB = read_file("CONTRIBUTING.rst")
 CHANGES = read_file("CHANGES.rst")
 version = read_file("VERSION.txt").strip()
 
-needs_pytest = {'pytest', 'test', 'ptr'}.intersection(sys.argv)
-pytest_runner = ['pytest-runner'] if needs_pytest else []
-test_deps = ["mock", "pytest", "pytest-cov", "pyfakefs"]
 
 setup(
     name="RepkaPi.GPIO",
     version=version,
     author="@screatorpro",
-    author_email="richard.hull@destructuring-bind.org",
     description=("A drop-in replacement for RPi.GPIO for the Repka Pi"),
     long_description="\n\n".join([README, CONTRIB, CHANGES]),
     license="MIT",
-    keywords="orange pi opi gpio",
-    url="https://github.com/rm-hull/OPi.GPIO",
-    download_url="https://github.com/rm-hull/OPi.GPIO/tarball/" + version,
+    keywords="Repka Pi RepkaPi gpio",
+    url="https://github.com/DikShv/RepkaPi.GPIO",
     packages=["RepkaPi"],
-    setup_requires=pytest_runner,
-    tests_require=test_deps,
-    extras_require={
-        'docs': [
-            'sphinx >= 1.5.3'
-        ],
-        'test': test_deps
-    },
     zip_safe=False,
     classifiers=[
         "License :: OSI Approved :: MIT License",
