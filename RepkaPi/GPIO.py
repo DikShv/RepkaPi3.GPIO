@@ -16,9 +16,9 @@ script.
 
 Pin Numbering
 -------------
-Pins on Orange Pi Zero are named PxNN where x = A..Z and NN = 00..99. This
+Pins on Repka Pi 3 are named PxNN where x = A..Z and NN = 00..99. This
 implementation aims to paper over the cracks to make GPIO usage consistent
-across Raspberry Pi and Orange Pi. Quoting from the RPi.GPIO documentation:
+across Raspberry Pi and Repka Pi. Quoting from the RPi.GPIO documentation:
 
     *There are two ways of numbering the IO pins on a Raspberry Pi within
     RPi.GPIO. The first is using the BOARD numbering system. This refers to
@@ -36,7 +36,6 @@ across Raspberry Pi and Orange Pi. Quoting from the RPi.GPIO documentation:
 This library monkeys the original implementation (and the documentation, as you
 are about to find out), by adding a third numbering system that is SUNXI naming.
 
-.. image:: ../doc/images/OrangePi_Zero_Pinout_header.jpg
 
 Inputs
 ------
@@ -302,7 +301,7 @@ board computer. More information can be found at:
 
 https://developer.toradex.com/knowledge-base/pwm-linux
 
-This code was written on an OrangePi PC+ so the following examples are based on that, however any single board
+This code was written on an Repka Pi 3 so the following examples are based on that, however any single board
 computer running linux that has a pwm chip will be able to use this.
 To create a PWM object you write 0 to the file '/sys/class/pwm/pwmchip0/export'.
 By writing 0 you are creating a pwm object called pwm0 that is tied to pwm pin 0.
@@ -674,7 +673,7 @@ def cleanup(channel=None):
     At the end any program, it is good practice to clean up any resources you
     might have used. This is no different with RepkaPi.GPIO. By returning all
     channels you have used back to inputs with no pull up/down, you can avoid
-    accidental damage to your Orange Pi by shorting out the pins. Note that
+    accidental damage to your Repka Pi by shorting out the pins. Note that
     this will only clean up GPIO channels that your script has used. Note that
     GPIO.cleanup() also clears the pin numbering system in use.
 

@@ -88,7 +88,7 @@ def edge(pin, trigger):
 #   resources: https://developer.toradex.com/knowledge-base/pwm-linux    &    https://www.faschingbauer.me/trainings/material/soup/hardware/pwm/topic.html
 
 
-def PWM_Export(chip, pin):  # some chips will have more than 1 pwm chip. the RepkaPi PC+ only has 1 called pwmchip0. To list what chips are available use 'ls -l /sys/class/pwm'
+def PWM_Export(chip, pin):  # some chips will have more than 1 pwm chip. the RepkaPi 3 only has 1 called pwmchip0. To list what chips are available use 'ls -l /sys/class/pwm'
     path = "/sys/class/pwm/pwmchip{0}/export".format(chip)
     await_permissions(path)
     with open(path, "w") as fp:
