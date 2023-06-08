@@ -9,11 +9,13 @@ using sysfs: this allows the GPIO pins to be accessed from user space.
 
 Installation
 ----------
+```
     sudo apt-get update
     sudo apt-get install python-dev git
     git clone https://github.com/Jeremie-C/OrangePi.GPIO
     cd /OrangePi.GPIO
     sudo python setup.py install
+```
 
 Supported Boards
 ----------
@@ -25,12 +27,14 @@ Usage
 
 Same as RPi.GPIO but with a new function to choose Repka Pi Board.
 
+```
     import RepkaPi.GPIO as GPIO
     GPIO.setboard(GPIO.REPKAPI3)
     GPIO.setmode(GPIO.BOARD)
     GPIO.output(5, 1)
+```
 
-Many demo is on the example folder
+Many demo is on the Demo folder
 
 
 References
