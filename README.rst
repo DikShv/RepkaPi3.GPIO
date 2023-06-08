@@ -11,9 +11,13 @@ Installation
 ----------
 .. note::
   $ sudo apt-get update
+
   $ sudo apt-get install python-dev git
+
   $ git clone https://github.com/DikShv/RepkaPi3.GPIO.git
+
   $ cd RepkaPi3.GPIO
+  
   $ sudo python setup.py install
 
 
