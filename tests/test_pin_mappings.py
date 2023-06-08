@@ -4,10 +4,10 @@
 # See LICENSE.rst for details.
 
 """
-Tests for the :py:mod:`OPi.pin_mappings` module.
+Tests for the :py:mod:`RepkaPi.pin_mappings` module.
 """
 
-from OPi.pin_mappings import bcm, board, sunxi, custom, set_custom_pin_mappings
+from RepkaPi.pin_mappings import bcm, board, sunxi, custom, set_custom_pin_mappings
 
 
 def test_mappings():

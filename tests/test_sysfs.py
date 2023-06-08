@@ -4,16 +4,16 @@
 # See LICENSE.rst for details.
 
 """
-Tests for the :py:mod:`OPi.sysfs` module.
+Tests for the :py:mod:`RepkaPi.sysfs` module.
 """
 import pytest
 import time
 import threading
 import os
 
-from OPi.sysfs import export, unexport, direction, input, output,\
+from RepkaPi.sysfs import export, unexport, direction, input, output,\
     edge, await_permissions, WAIT_PERMISSION_TIMEOUT
-from OPi.constants import IN, OUT, LOW, HIGH, NONE, RISING, FALLING, BOTH
+from RepkaPi.constants import IN, OUT, LOW, HIGH, NONE, RISING, FALLING, BOTH
 
 
 @pytest.mark.parametrize("test_input,expected", [

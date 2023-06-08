@@ -4,7 +4,7 @@
 # See LICENSE.rst for details.
 
 """
-Tests for the :py:mod:`OPi.GPIO` module.
+Tests for the :py:mod:`RepkaPi.GPIO` module.
 """
 try:
     from unittest.mock import patch, call
@@ -12,11 +12,11 @@ except ImportError:
     from mock import patch, call
 
 import pytest
-import OPi.GPIO as GPIO
+import RepkaPi.GPIO as GPIO
 
 
 def setup():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.cleanup()
 
 
@@ -44,7 +44,7 @@ def test_setup_with_no_mode():
 
 
 def test_setup_single_input_channel():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.SUNXI)
         GPIO.setup("PA01", GPIO.IN)
         mock.export.assert_called_with(1)
@@ -53,7 +53,7 @@ def test_setup_single_input_channel():
 
 
 def test_setup_channel_already_setup():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.SUNXI)
         GPIO.setup("PA01", GPIO.IN)
         mock.export.assert_called_with(1)
@@ -65,7 +65,7 @@ def test_setup_channel_already_setup():
 
 
 def test_setup_single_output_channel():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.SUNXI)
         GPIO.setup("PG07", GPIO.OUT)
         mock.export.assert_called_with(199)
@@ -75,7 +75,7 @@ def test_setup_single_output_channel():
 
 
 def test_setup_channel_already_in_use_raises_OSError():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.SUNXI)
         mock.export.side_effect = [OSError(16, "test"), None]
         GPIO.setup("PG07", GPIO.OUT)
@@ -87,7 +87,7 @@ def test_setup_channel_already_in_use_raises_OSError():
 
 
 def test_setup_channel_already_in_use_raises_IOError():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.SUNXI)
         mock.export.side_effect = [IOError(16, "test"), None]
         GPIO.setup("PG06", GPIO.OUT)
@@ -99,7 +99,7 @@ def test_setup_channel_already_in_use_raises_IOError():
 
 
 def test_setup_raises_OSError():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.SUNXI)
         mock.export.side_effect = OSError(44, "test")
         with pytest.raises(OSError) as ex:
@@ -113,7 +113,7 @@ def test_setup_raises_OSError():
 
 
 def test_setup_single_output_channel_with_initial_value():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.SUNXI)
         GPIO.setup("PG06", GPIO.OUT, GPIO.HIGH)
         mock.export.assert_called_with(198)
@@ -129,7 +129,7 @@ def test_input_not_configured():
 
 
 def test_input():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         mock.input.return_value = GPIO.HIGH
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.IN)
@@ -138,7 +138,7 @@ def test_input():
 
 
 def test_input_not_configured_for_output():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.IN)
         with pytest.raises(RuntimeError) as ex:
@@ -153,7 +153,7 @@ def test_output_not_configured():
 
 
 def test_output():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.OUT)
         GPIO.output(23, GPIO.LOW)
@@ -161,7 +161,7 @@ def test_output():
 
 
 def test_multiple_output():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup([23, 13, 3], GPIO.OUT)
         GPIO.output([23, 13, 3], GPIO.LOW)
@@ -173,7 +173,7 @@ def test_multiple_output():
 
 
 def test_input_and_output():
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         mock.input.return_value = GPIO.HIGH
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.OUT)
@@ -189,7 +189,7 @@ def test_wait_for_edge_not_configured():
 
 
 def test_wait_for_edge_not_configured_for_input():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(12, GPIO.OUT)
         with pytest.raises(RuntimeError) as ex:
@@ -198,26 +198,26 @@ def test_wait_for_edge_not_configured_for_input():
 
 
 def test_wait_for_edge_completes():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(12, GPIO.IN)
-        with patch("OPi.GPIO.event") as mock:
+        with patch("RepkaPi.GPIO.event") as mock:
             mock.blocking_wait_for_edge.return_value = 1
             assert GPIO.wait_for_edge(12, GPIO.BOTH) == 12
             mock.blocking_wait_for_edge.assert_called_with(7, GPIO.BOTH, -1)
 
 
 def test_add_event_detect():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.IN)
-        with patch("OPi.GPIO.event") as mock:
+        with patch("RepkaPi.GPIO.event") as mock:
             GPIO.add_event_detect(23, GPIO.BOTH)
             mock.add_edge_detect.assert_called_with(14, GPIO.BOTH, None)
 
 
 def test_add_event_detect_not_configured_for_input():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.OUT)
         with pytest.raises(RuntimeError) as ex:
@@ -226,16 +226,16 @@ def test_add_event_detect_not_configured_for_input():
 
 
 def test_remove_event_detect():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.IN)
-        with patch("OPi.GPIO.event") as mock:
+        with patch("RepkaPi.GPIO.event") as mock:
             GPIO.remove_event_detect(23)
             mock.remove_edge_detect.assert_called_with(14)
 
 
 def test_remove_event_detect_not_configured_for_input():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.OUT)
         with pytest.raises(RuntimeError) as ex:
@@ -244,16 +244,16 @@ def test_remove_event_detect_not_configured_for_input():
 
 
 def test_add_event_callback():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.IN)
-        with patch("OPi.GPIO.event") as mock:
+        with patch("RepkaPi.GPIO.event") as mock:
             GPIO.add_event_callback(23, None)
             mock.add_edge_callback(14, None)
 
 
 def test_add_event_callback_not_configured_for_input():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.OUT)
         with pytest.raises(RuntimeError) as ex:
@@ -262,16 +262,16 @@ def test_add_event_callback_not_configured_for_input():
 
 
 def test_event_detected():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.IN)
-        with patch("OPi.GPIO.event") as mock:
+        with patch("RepkaPi.GPIO.event") as mock:
             mock.edge_detected.return_value = True
             assert GPIO.event_detected(23)
 
 
 def test_event_detected_not_configured_for_input():
-    with patch("OPi.GPIO.sysfs"):
+    with patch("RepkaPi.GPIO.sysfs"):
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(23, GPIO.OUT)
         with pytest.raises(RuntimeError) as ex:
@@ -298,7 +298,7 @@ def test_callback_wrapper_not_none():
 def test_custom_dict():
     GPIO.cleanup()
     assert GPIO.getmode() is None
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode({"A": 5, "B": 37})
         assert GPIO.getmode() is GPIO.CUSTOM
         GPIO.setup("A", GPIO.IN)
@@ -314,7 +314,7 @@ def test_custom_object():
 
     GPIO.cleanup()
     assert GPIO.getmode() is None
-    with patch("OPi.GPIO.sysfs") as mock:
+    with patch("RepkaPi.GPIO.sysfs") as mock:
         GPIO.setmode(mapper())
         assert GPIO.getmode() is GPIO.CUSTOM
         GPIO.setup(11, GPIO.IN)

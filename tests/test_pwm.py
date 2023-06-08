@@ -1,5 +1,5 @@
 import pytest
-import OPi.GPIO as GPIO
+import RepkaPi.GPIO as GPIO
 
 
 def test_pwm_wrong_chip_pin():

@@ -4,7 +4,7 @@
 # See LICENSE.rst for details.
 
 """
-Tests for the :py:mod:`OPi.event` module.
+Tests for the :py:mod:`RepkaPi.event` module.
 """
 
 try:
@@ -14,8 +14,8 @@ except ImportError:
 
 import time
 import pytest
-import OPi.event as event
-from OPi.constants import RISING
+import RepkaPi.event as event
+from RepkaPi.constants import RISING
 
 
 def test_blocking_wait_for_edge_detected(fs):

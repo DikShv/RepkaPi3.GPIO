@@ -10,7 +10,7 @@ using sysfs: this allows the GPIO pins to be accessed from user space.
 Installation
 ----------
 
-  ``$ sudo apt-get update
+  $ sudo apt-get update
 
   $ sudo apt-get install python-dev git
 
@@ -18,7 +18,7 @@ Installation
 
   $ cd RepkaPi3.GPIO
 
-  $ sudo python setup.py install``
+  $ sudo python setup.py install
 
 
 Supported Boards
@@ -33,13 +33,38 @@ Same as RPi.GPIO but with a new function to choose Repka Pi Board.
 
 
     import RepkaPi.GPIO as GPIO
+
     GPIO.setboard(GPIO.REPKAPI3)
+
     GPIO.setmode(GPIO.BOARD)
+
     GPIO.output(5, 1)
 
 
 
 Many demo is on the Demo folder
+
+Non Root Access
+---------------
+If you want to be able to use the library as a non root user, you will need to setup a `UDEV` rule to grant you permissions first. 
+This can be accomplished as follows: 
+
+``$ sudo usermod -aG gpio <current_user>``
+
+``$ sudo nano /etc/udev/rules.d/99-gpio.rules``
+
+That should add your user to the GPIO group, create a new ``UDEV`` rule, and open it in the Nano text editor. 
+
+Enter the following into Nano:
+
+.. code-block:: text
+
+   SUBSYSTEM=="gpio", KERNEL=="gpio*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value ; chmod 660 /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value'"
+   SUBSYSTEM=="gpio", KERNEL=="gpiochip*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys/class/gpio/export /sys/class/gpio/unexport ; chmod 220 /sys/class/gpio/export /sys/class/gpio/unexport'" 
+
+Press ``ctrl-x``, ``Y``, and ``ENTER`` to save and close the file. 
+
+Finally, reboot and you should be ready to use ``RepkaPi.GPIO`` as a non root user. 
 
 
 References
