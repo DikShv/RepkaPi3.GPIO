@@ -1,40 +1,42 @@
-OPi.GPIO
+RepkaPi.GPIO
 ========
 
-.. image:: https://travis-ci.org/rm-hull/OPi.GPIO.svg?branch=master
-   :target: https://travis-ci.org/rm-hull/OPi.GPIO
-
-.. image:: https://coveralls.io/repos/github/rm-hull/OPi.GPIO/badge.svg?branch=master
-   :target: https://coveralls.io/github/rm-hull/OPi.GPIO?branch=master
-
-.. image:: https://readthedocs.org/projects/opi-gpio/badge/?version=latest
-   :target: http://opi-gpio.readthedocs.io/en/latest/?badge=latest
-
-.. image:: https://img.shields.io/pypi/pyversions/OPi.GPIO.svg
-   :target: https://pypi.python.org/pypi/OPi.GPIO
-
-.. image:: https://img.shields.io/pypi/v/OPi.GPIO.svg
-   :target: https://pypi.python.org/pypi/OPi.GPIO
-   
-.. image:: https://img.shields.io/maintenance/yes/2021.svg?maxAge=2592000
 
 A drop-in replacement library for `RPi.GPIO <https://sourceforge.net/projects/raspberry-gpio-python/>`_
-for the Orange Pi Zero and other SBCs. Only the basic GPIO functions are replicated,
+for the Repka Pi and other SBCs. Only the basic GPIO functions are replicated,
 using sysfs: this allows the GPIO pins to be accessed from user space.
 
-See the `documentation <https://opi-gpio.readthedocs.io>`_ for install
-instructions and detailed API usage.
+
+Installation
+----------
+    sudo apt-get update
+    sudo apt-get install python-dev git
+    git clone https://github.com/Jeremie-C/OrangePi.GPIO
+    cd /OrangePi.GPIO
+    sudo python setup.py install
+
+Supported Boards
+----------
+
+* Repka Pi 3
+
+Usage
+----------
+
+Same as RPi.GPIO but with a new function to choose Repka Pi Board.
+
+    import RepkaPi.GPIO as GPIO
+    GPIO.setboard(GPIO.REPKAPI3)
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.output(5, 1)
+
+Many demo is on the example folder
+
 
 References
 ----------
 * https://www.kernel.org/doc/Documentation/gpio/sysfs.txt
 * http://linux-sunxi.org/GPIO
-* https://forum.armbian.com/index.php?/topic/1471-solved-difficulty-accessing-gpio-via-the-sunxi-gpio-export-interface/
-* https://forum.armbian.com/index.php?/topic/3655-guide-orange-pi-zero-gpios/
-* https://jsfiddle.net/tuav7f6q/2/
-* https://www.mysensors.org/build/orange
-* https://kaspars.net/blog/linux/orange-pi-zero-gpio
-* https://developer.toradex.com/knowledge-base/pwm-linux
 
 License
 -------
