@@ -9,7 +9,7 @@ using sysfs: this allows the GPIO pins to be accessed from user space.
 
 Installation
 ----------
-
+.. note::
   $ sudo apt-get update
   $ sudo apt-get install python-dev git
   $ git clone https://github.com/DikShv/RepkaPi3.GPIO.git
