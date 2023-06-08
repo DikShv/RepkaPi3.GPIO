@@ -1,4 +1,4 @@
-import OPi.GPIO as GPIO
+import RepkaPi.GPIO as GPIO
 
 if __name__ == "__main__":
 
