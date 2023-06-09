@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018 Richard Hull
-# See LICENSE.md for details.
+# Адаптация и доработка по Repka Pi (c) 2023 Дмитрий Шевцов (@screatorpro)
+# Подробности смотрите в LICENSE.md.
 
 import threading
 import select
@@ -16,7 +17,6 @@ _threads = {}
 
 class _worker(threading.Thread):
 
-    # TODO: implement bouncetime
     def __init__(self, pin, trigger, callback=None):
         super(_worker, self).__init__()
         self.daemon = True
@@ -102,7 +102,6 @@ def blocking_wait_for_edge(pin, trigger, timeout=-1):
             e.register(fd, EPOLLIN | EPOLLET | EPOLLPRI)
             try:
                 while not finished:
-                    # TODO: implement bouncetime
                     events = e.poll(timeout / 1000.0, maxevents=1)
                     if initial_edge:
                         initial_edge = False

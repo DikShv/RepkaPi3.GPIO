@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018 Richard Hull
-# See LICENSE.md for details.
+# Адаптация и доработка по Repka Pi (c) 2023 Дмитрий Шевцов (@screatorpro)
+# Подробности смотрите в LICENSE.md.
 
 import functools
 from copy import deepcopy
@@ -56,7 +57,7 @@ _pin_map = {
             40:  14,    # PG7/SPI1_CLK
         },
 
-        # BCM pin to actual GPIO pin
+        # Контакт BCM к фактическому контакту GPIO
         BCM: {
             2: 12,
             3: 11,
@@ -88,7 +89,6 @@ _pin_map = {
 
         SUNXI: _sunXi(),
 
-        # User defined, initialized as empty
         CUSTOM: {}
     }
 }

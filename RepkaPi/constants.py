@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018 Richard Hull
-# See LICENSE.md for details.
+# Адаптация и доработка по Repka Pi (c) 2023 Дмитрий Шевцов (@screatorpro)
+# Подробности смотрите в LICENSE.md.
 
 import sys
 
@@ -33,8 +34,8 @@ GPIO.PUD_UP = 2
 # From: https://sourceforge.net/p/raspberry-gpio-python/code/ci/default/tree/source/common.h
 GPIO.BOARD = 10
 GPIO.BCM = 11
-GPIO.SUNXI = 12  # made up :]
-GPIO.CUSTOM = 13  # also made up 8]
+GPIO.SUNXI = 12  
+GPIO.CUSTOM = 13  
 
 GPIO.NONE = 0
 GPIO.RISING = 1
