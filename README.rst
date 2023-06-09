@@ -12,13 +12,13 @@ Installation
 
   $ sudo apt-get update
 
-  $ sudo apt-get install python-dev git
+  $ sudo apt-get install python3-dev git
 
   $ git clone https://github.com/DikShv/RepkaPi3.GPIO.git
 
   $ cd RepkaPi3.GPIO
 
-  $ sudo python setup.py install
+  $ sudo python3 setup.py install
 
 
 Supported Boards
