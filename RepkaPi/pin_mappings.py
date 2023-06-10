@@ -42,7 +42,7 @@ _pin_map = {
             21:  65,    # PA16/SPI0_MISO
             22:   2,    # PA2
             23:  66,    # PA14/SPI0_CLK
-            24:  67,    # PA13/SPI0_CS0
+            24:  67,    # PC3/SPI0_CS0
             26:   3,    # PA3/SPI0_CS0
             27:  19,    # PA19/TWI2_SDA
             28:  18,    # PA18/TWI2_SCK
