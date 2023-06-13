@@ -356,10 +356,10 @@ Methods
 import warnings
 
 from RepkaPi.constants import IN, OUT
-from RepkaPi.constants import LOW, HIGH                     # noqa: F401
-from RepkaPi.constants import NONE, RISING, FALLING, BOTH   # noqa: F401
+from RepkaPi.constants import LOW, HIGH                     
+from RepkaPi.constants import NONE, RISING, FALLING, BOTH   
 from RepkaPi.constants import BCM, BOARD, SUNXI, CUSTOM, DEFAULTBOARD, REPKAPI3
-from RepkaPi.constants import PUD_UP, PUD_DOWN, PUD_OFF     # noqa: F401
+from RepkaPi.constants import PUD_UP, PUD_DOWN, PUD_OFF     
 from RepkaPi.pin_mappings import get_gpio_pin, set_custom_pin_mappings, get_name
 from RepkaPi import event, sysfs
 
