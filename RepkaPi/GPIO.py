@@ -358,15 +358,16 @@ import warnings
 from RepkaPi.constants import IN, OUT
 from RepkaPi.constants import LOW, HIGH                     # noqa: F401
 from RepkaPi.constants import NONE, RISING, FALLING, BOTH   # noqa: F401
-from RepkaPi.constants import BCM, BOARD, SUNXI, CUSTOM, REPKAPI3
+from RepkaPi.constants import BCM, BOARD, SUNXI, CUSTOM, DEFAULTBOARD, REPKAPI3
 from RepkaPi.constants import PUD_UP, PUD_DOWN, PUD_OFF     # noqa: F401
-from RepkaPi.pin_mappings import get_gpio_pin, set_custom_pin_mappings
+from RepkaPi.pin_mappings import get_gpio_pin, set_custom_pin_mappings, get_name
 from RepkaPi import event, sysfs
 
 _gpio_warnings = True
 _mode = None
-_board = None
+_board = DEFAULTBOARD
 _exports = {}
+_boards = [REPKAPI3]
 
 
 
@@ -379,12 +380,21 @@ def _check_configured(channel, direction=None):
         descr = "input" if configured == IN else "output"
         raise RuntimeError("Channel {0} is configured for {1}".format(channel, descr))
 
+# Устанавливаем модель платы
 def setboard(board):
     assert board in [REPKAPI3]
     global _board
     _board = board
 
+# Получаем установленную модель платы
+def getsetboardmodel():
+    global _board
+    global _boards
+    
+    if _board not in _boards:
+        raise RuntimeError("Не выбранна модель платы. Для выбора модели платы используйте метод setboard()")
 
+    return get_name(_board)
 
 def getmode():
     """
@@ -419,6 +429,7 @@ def setwarnings(enabled):
 
 
 def setup(channel, direction, initial=None, pull_up_down=None):
+    global _boards
     """
     You need to set up every channel you are using as an input or an output.
 
@@ -462,8 +473,8 @@ def setup(channel, direction, initial=None, pull_up_down=None):
                               #   chan_list = (11,12)
        GPIO.setup(chan_list, GPIO.OUT)
     """
-    if _board is None:
-        raise RuntimeError("Не выбранна версия платы")
+    if _board not in _boards:
+        raise RuntimeError("Не выбранна модель платы. Для выбора модели платы используйте метод setboard()")
 
     if _mode is None:
         raise RuntimeError("Mode has not been set")

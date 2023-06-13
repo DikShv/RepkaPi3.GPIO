@@ -45,4 +45,8 @@ GPIO.BOTH = 3
 #Поддерживаемые платы
 GPIO.REPKAPI3 = 1
 
+#Плата по умолчанию
+#GPIO.DEFAULTBOARD = None
+GPIO.DEFAULTBOARD = GPIO.REPKAPI3 # Repka Pi 3 выставлена по умолчанию
+
 sys.modules[__name__] = GPIO

@@ -26,6 +26,10 @@ _pin_map = {
     # pin number = (положение буквы в алфавите - 1) * 32 + номер пина
     # Пример, PD14 будет 3 * 32 +14 = 110
     REPKAPI3: {
+        # Версия платы
+        0 : "Repka Pi 3",
+
+        # Контакт на гребенке к фактическому контакту SUNXI
         BOARD: {
             3:   12,    # PA12/TWI1_SDA/DI_RX/PA_EINT12
             5:   11,    # PA11/TWI1_SCK/DI_TX/PA_EINT11
@@ -57,7 +61,7 @@ _pin_map = {
             40:  14,    # PG7/SPI1_CLK
         },
 
-        # Контакт BCM к фактическому контакту GPIO
+        # Контакт BCM к фактическому контакту SUNXI
         BCM: {
             2: 12,
             3: 11,
@@ -103,8 +107,6 @@ def get_gpio_pin(board, mode, channel):
     assert board in [REPKAPI3]
     return _pin_map[board][mode][channel]
 
-
-bcm = functools.partial(get_gpio_pin, BCM)
-board = functools.partial(get_gpio_pin, BOARD)
-sunxi = functools.partial(get_gpio_pin, SUNXI)
-custom = functools.partial(get_gpio_pin, CUSTOM)
+def get_name(board):
+    assert board in [REPKAPI3]
+    return _pin_map[board][0]
