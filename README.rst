@@ -2,12 +2,12 @@ RepkaPi.GPIO
 ========
 
 
-A drop-in replacement library for `RPi.GPIO <https://sourceforge.net/projects/raspberry-gpio-python/>`_
-for the Repka Pi and other SBCs. Only the basic GPIO functions are replicated,
-using sysfs: this allows the GPIO pins to be accessed from user space.
+Подключаемая библиотека замена для `RPi.GPIO <https://sourceforge.net/projects/raspberry-gpio-python/>`
+для Repka Pi. Реализованы только основные функции работы с GPIO,
+используется sysfs: это позволяет получить доступ к контактам GPIO из пользовательского приложения.
 
 
-Installation
+Установка
 ----------
 
   $ sudo apt-get update
@@ -20,21 +20,25 @@ Installation
 
   $ sudo python3 setup.py install
 
+Вы так же можете перед установкой в файле RepkaPi/constants.py установить в константе GPIO.DEFAULTBOARD вашу модель платы, это позволит не выбирать модель платы в коде
 
-Supported Boards
+
+Поддерживаемые модели платы
 ----------
 
 * Repka Pi 3
 
-Usage
+
+
+Использование
 ----------
 
-Same as RPi.GPIO but with a new function to choose Repka Pi Board.
+То же, что и RPi.GPIO, но с новой функцией выбора платы Repka Pi.
 
 
     import RepkaPi.GPIO as GPIO
 
-    GPIO.setboard(GPIO.REPKAPI3)
+    GPIO.setboard(GPIO.REPKAPI3) # не обязательно если в constants.py при установки библиотеки установить константу GPIO.DEFAULTBOARD
 
     GPIO.setmode(GPIO.BOARD)
 
@@ -42,56 +46,45 @@ Same as RPi.GPIO but with a new function to choose Repka Pi Board.
 
 
 
-Many demo is on the Demo folder
+Примеры использования в папке Demo
 
-Non Root Access
+
+
+Без root-доступа
 ---------------
-If you want to be able to use the library as a non root user, you will need to setup a `UDEV` rule to grant you permissions first. 
-This can be accomplished as follows: 
+Если вы хотите использовать библиотеку как пользователь без полномочий root, вам необходимо сначала настроить правило UDEV, чтобы предоставить вам разрешения.
+Это можно сделать следующим образом:
 
 ``$ sudo usermod -aG gpio <current_user>``
 
 ``$ sudo nano /etc/udev/rules.d/99-gpio.rules``
 
-That should add your user to the GPIO group, create a new ``UDEV`` rule, and open it in the Nano text editor. 
+Это должно добавить вашего пользователя в группу GPIO, создать новое правило UDEV и открыть его в текстовом редакторе Nano.
 
-Enter the following into Nano:
+Введите следующее в Nano:
 
 .. code-block:: text
 
    SUBSYSTEM=="gpio", KERNEL=="gpio*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value ; chmod 660 /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value'"
    SUBSYSTEM=="gpio", KERNEL=="gpiochip*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys/class/gpio/export /sys/class/gpio/unexport ; chmod 220 /sys/class/gpio/export /sys/class/gpio/unexport'" 
 
-Press ``ctrl-x``, ``Y``, and ``ENTER`` to save and close the file. 
+Нажмите ``ctrl-x``, ``Y`` и ``ENTER``, чтобы сохранить и закрыть файл.
 
-Finally, reboot and you should be ready to use ``RepkaPi.GPIO`` as a non root user. 
+Перезагрузитесь, и вы можите использовать ``RepkaPi.GPIO`` из под пользователя без полномочий root.
 
 
-References
+Рекомендации
 ----------
 * https://www.kernel.org/doc/Documentation/gpio/sysfs.txt
 * http://linux-sunxi.org/GPIO
 
-License
--------
-The MIT License
+Лицензия MIT
+---------------------
 
-Copyright (c) 2018 Richard Hull
+Copyright (c) 2023 Дмитрий Шевцов (@screatorpro) & Contributors
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Данная лицензия разрешает лицам, получившим копию данного программного обеспечения и сопутствующей документации (далее — Программное обеспечение), безвозмездно использовать Программное обеспечение без ограничений, включая неограниченное право на использование, копирование, изменение, слияние, публикацию, распространение, сублицензирование и/или продажу копий Программного обеспечения, а также лицам, которым предоставляется данное Программное обеспечение, при соблюдении следующих условий:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Указанное выше уведомление об авторском праве и данные условия должны быть включены во все копии или значимые части данного Программного обеспечения.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+ДАННОЕ ПРОГРАММНОЕ ОБЕСПЕЧЕНИЕ ПРЕДОСТАВЛЯЕТСЯ «КАК ЕСТЬ», БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ, ЯВНО ВЫРАЖЕННЫХ ИЛИ ПОДРАЗУМЕВАЕМЫХ, ВКЛЮЧАЯ ГАРАНТИИ ТОВАРНОЙ ПРИГОДНОСТИ, СООТВЕТСТВИЯ ПО ЕГО КОНКРЕТНОМУ НАЗНАЧЕНИЮ И ОТСУТСТВИЯ НАРУШЕНИЙ, НО НЕ ОГРАНИЧИВАЯСЬ ИМИ. НИ В КАКОМ СЛУЧАЕ АВТОРЫ ИЛИ ПРАВООБЛАДАТЕЛИ НЕ НЕСУТ ОТВЕТСТВЕННОСТИ ПО КАКИМ-ЛИБО ИСКАМ, ЗА УЩЕРБ ИЛИ ПО ИНЫМ ТРЕБОВАНИЯМ, В ТОМ ЧИСЛЕ, ПРИ ДЕЙСТВИИ КОНТРАКТА, ДЕЛИКТЕ ИЛИ ИНОЙ СИТУАЦИИ, ВОЗНИКШИМ ИЗ-ЗА ИСПОЛЬЗОВАНИЯ ПРОГРАММНОГО ОБЕСПЕЧЕНИЯ ИЛИ ИНЫХ ДЕЙСТВИЙ С ПРОГРАММНЫМ ОБЕСПЕЧЕНИЕМ. 
