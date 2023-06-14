@@ -41,6 +41,7 @@ GPIO.NONE = 0
 GPIO.RISING = 1
 GPIO.FALLING = 2
 GPIO.BOTH = 3
+GPIO.VERSION = '0.1.0'
 
 #Поддерживаемые платы
 GPIO.REPKAPI3 = 1
