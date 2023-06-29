@@ -4,7 +4,7 @@
 import RepkaPi.GPIO as GPIO
 
 # Получаем модель выбранной платы
-print (GPIO.getsetboardmodel())
+print (GPIO.getboardmodel())
 
 # Версия библиотеки
 print (GPIO.VERSION)

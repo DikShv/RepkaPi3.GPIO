@@ -7,7 +7,7 @@ if __name__ == "__main__":
     frequency_Hz = 3800
     Duty_Cycle_Percent = 100
 
-    p = GPIO.PWM(PWM_chip, PWM_pin, frequency_Hz, Duty_Cycle_Percent)    # new PWM on channel=LED_gpio frequency=38KHz
+    p = GPIO.PWM_A(PWM_chip, PWM_pin, frequency_Hz, Duty_Cycle_Percent)    # new PWM on channel=LED_gpio frequency=38KHz
 
     print("Нажмите любую кнопку для запуска PWM0/ШИМ0")
     input()

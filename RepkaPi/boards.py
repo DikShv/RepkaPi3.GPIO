@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018 Richard Hull
-# Адаптация и доработка по Repka Pi (c) 2023 Дмитрий Шевцов (@screatorpro)
+# Адаптация и доработка под Repka Pi (c) 2023 Дмитрий Шевцов (@screatorpro)
 # Подробности смотрите в README.rst.
 
 import functools
 from copy import deepcopy
-from RepkaPi.constants import BOARD, BCM, SUNXI, CUSTOM, REPKAPI3
+from RepkaPi.constants import BOARD, BCM, SUNXI, SOC, REPKAPI3
 
 
 class _sunXi(object):
@@ -21,6 +21,12 @@ class _sunXi(object):
 
         return (offset * 32) + pin
 
+class _SOC(object):
+
+    def __getitem__(self, value):
+
+        return value
+
 
 _pin_map = {
     # pin number = (положение буквы в алфавите - 1) * 32 + номер пина
@@ -28,6 +34,9 @@ _pin_map = {
     REPKAPI3: {
         # Версия платы
         0 : "Repka Pi 3",
+
+        # Информация о плате
+        1 : {'P1_REVISION': 3, 'TYPE': 'Repka Pi 3', 'MANUFACTURER': 'ИНТЕЛЛЕКТ', 'RAM': '1024M', 'REVISION': '', 'PROCESSOR': 'Allwinner H5'},
 
         # Контакт на гребенке к фактическому контакту SUNXI
         BOARD: {
@@ -93,20 +102,21 @@ _pin_map = {
 
         SUNXI: _sunXi(),
 
-        CUSTOM: {}
+        SOC: _SOC()
     }
 }
 
 
-def set_custom_pin_mappings(mappings):
-    _pin_map[CUSTOM] = deepcopy(mappings)
-
-
 def get_gpio_pin(board, mode, channel):
-    assert mode in [BOARD, BCM, SUNXI, CUSTOM]
+    assert mode in [BOARD, BCM, SUNXI, SOC]
     assert board in [REPKAPI3]
     return _pin_map[board][mode][channel]
 
 def get_name(board):
     assert board in [REPKAPI3]
     return _pin_map[board][0]
+
+def get_info(board):
+    if board not in [REPKAPI3]:
+        raise RuntimeError("Не выбранна модель платы. Для выбора модели платы используйте метод setboard()")
+    return _pin_map[board][1]

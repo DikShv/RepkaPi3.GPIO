@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2018 Richard Hull
-# Адаптация и доработка по Repka Pi (c) 2023 Дмитрий Шевцов (@screatorpro)
+# Адаптация и доработка под Repka Pi (c) 2023 Дмитрий Шевцов (@screatorpro)
 # Подробности смотрите в README.rst.
 
 import sys
@@ -35,7 +35,7 @@ GPIO.PUD_UP = 2
 GPIO.BOARD = 10
 GPIO.BCM = 11
 GPIO.SUNXI = 12  
-GPIO.CUSTOM = 13  
+GPIO.SOC = 13  
 
 GPIO.NONE = 0
 GPIO.RISING = 1
