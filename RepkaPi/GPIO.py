@@ -358,11 +358,11 @@ import warnings
 from RepkaPi.constants import IN, OUT
 from RepkaPi.constants import LOW, HIGH                     
 from RepkaPi.constants import NONE, RISING, FALLING, BOTH   
-from RepkaPi.constants import BCM, BOARD, SUNXI, SOC, DEFAULTBOARD, REPKAPI3
+from RepkaPi.constants import BCM, BOARD, SUNXI, SOC, SYSFS, DEFAULTBOARD, REPKAPI3
 from RepkaPi.constants import PUD_UP, PUD_DOWN, PUD_OFF
 from RepkaPi.constants import PA, PC, PD, PE, PF, PG, PL       
-from RepkaPi.constants import VERSION
-from RepkaPi.boards import get_gpio_pin, get_name
+from RepkaPi.constants import VERSION, AUTODETECT
+from RepkaPi.boards import get_gpio_pin, get_name, get_board, get_info
 from RepkaPi.PWM_A import PWM_A
 from RepkaPi import event, sysfs
 
@@ -372,6 +372,17 @@ _mode = None
 _board = DEFAULTBOARD
 _exports = {}
 _boards = [REPKAPI3]
+RPI_INFO = "Не выбранна модель платы. Для выбора модели платы используйте метод setboard()"
+
+if AUTODETECT:
+  _board=get_board()
+
+if _board in _boards:
+  RPI_INFO = get_info(_board)
+
+#if isinstance(RPI_INFO,dict):
+
+get_info(_board)
 
 
 

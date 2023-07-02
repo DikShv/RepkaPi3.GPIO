@@ -8,3 +8,7 @@ print (GPIO.getboardmodel())
 
 # Версия библиотеки
 print (GPIO.VERSION)
+
+# Версия библиотеки
+print (GPIO.RPI_INFO)
+

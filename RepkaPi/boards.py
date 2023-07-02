@@ -6,6 +6,7 @@
 import functools
 from copy import deepcopy
 from RepkaPi.constants import BOARD, BCM, SUNXI, SOC, REPKAPI3
+import os
 
 
 class _sunXi(object):
@@ -27,6 +28,9 @@ class _SOC(object):
 
         return value
 
+_board_model = {
+    'Repka-Pi3-H5': REPKAPI3
+}
 
 _pin_map = {
     # pin number = (положение буквы в алфавите - 1) * 32 + номер пина
@@ -119,4 +123,24 @@ def get_name(board):
 def get_info(board):
     if board not in [REPKAPI3]:
         raise RuntimeError("Не выбранна модель платы. Для выбора модели платы используйте метод setboard()")
-    return _pin_map[board][1]
+
+    info = _pin_map[board][1]
+    mem = os.popen("cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*'").read().strip()
+
+    ram=int(mem)/1024
+    if ram > 1024 and ram < 2048:
+        info['RAM'] = "2GB"
+    else:
+        info['RAM'] = "1GB"
+
+    return info
+
+def get_board():
+    with open('/proc/device-tree/model', 'r') as f:
+            model = f.read().strip().rstrip('\x00')
+        
+    if model not in _board_model:
+        raise RuntimeError("Не выбранна модель платы. Для выбора модели платы используйте метод setboard()")
+
+    return _board_model[model]
+

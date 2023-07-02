@@ -59,6 +59,7 @@ GPIO.REPKAPI3 = 1
 GPIO.DEFAULTBOARD = None
 #GPIO.DEFAULTBOARD = GPIO.REPKAPI3 # Repka Pi 3 выставлена по умолчанию
 
+#Автоматическое определение версии Repka Pi
 GPIO.AUTODETECT = True
 
 sys.modules[__name__] = GPIO
