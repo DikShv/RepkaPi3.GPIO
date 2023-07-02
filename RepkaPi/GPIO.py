@@ -380,10 +380,6 @@ if AUTODETECT:
 if _board in _boards:
   RPI_INFO = get_info(_board)
 
-#if isinstance(RPI_INFO,dict):
-
-get_info(_board)
-
 
 
 def _check_configured(channel, direction=None):
