@@ -35,7 +35,8 @@ GPIO.PUD_UP = 2
 GPIO.BOARD = 10
 GPIO.BCM = 11
 GPIO.SUNXI = 12  
-GPIO.SOC = 13  
+GPIO.SOC = 13
+GPIO.SYSFS = GPIO.SOC  
 
 GPIO.NONE = 0
 GPIO.RISING = 1
@@ -55,7 +56,9 @@ GPIO.PL = 352
 GPIO.REPKAPI3 = 1
 
 #Плата по умолчанию
-#GPIO.DEFAULTBOARD = None
-GPIO.DEFAULTBOARD = GPIO.REPKAPI3 # Repka Pi 3 выставлена по умолчанию
+GPIO.DEFAULTBOARD = None
+#GPIO.DEFAULTBOARD = GPIO.REPKAPI3 # Repka Pi 3 выставлена по умолчанию
+
+GPIO.AUTODETECT = True
 
 sys.modules[__name__] = GPIO
