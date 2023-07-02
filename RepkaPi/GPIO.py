@@ -361,8 +361,7 @@ from RepkaPi.constants import NONE, RISING, FALLING, BOTH
 from RepkaPi.constants import BCM, BOARD, SUNXI, SOC, DEFAULTBOARD, REPKAPI3
 from RepkaPi.constants import PUD_UP, PUD_DOWN, PUD_OFF
 from RepkaPi.constants import PA, PC, PD, PE, PF, PG, PL       
-from RepkaPi.constants import VERSION, RPI_INFO
-from RepkaPi.constants import set_board
+from RepkaPi.constants import VERSION
 from RepkaPi.boards import get_gpio_pin, get_name
 from RepkaPi.PWM_A import PWM_A
 from RepkaPi import event, sysfs
