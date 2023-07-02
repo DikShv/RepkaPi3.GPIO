@@ -389,7 +389,6 @@ def _check_configured(channel, direction=None):
 def setboard(board):
     global _board
     assert board in _boards
-    set_board(board)
     _board = board
 
 # Получаем установленную модель платы

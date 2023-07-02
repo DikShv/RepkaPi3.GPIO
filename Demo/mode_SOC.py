@@ -5,7 +5,7 @@ import RepkaPi.GPIO as GPIO
 from time import sleep          # позволяет выставить задержку на время
 
 GPIO.setboard(GPIO.REPKAPI3)    # Repka Pi 3
-GPIO.setmode(GPIO.SOC)          # выбираем тип обращения к GPIO по номеру SUNXI
+GPIO.setmode(GPIO.SOC)          # выбираем тип обращения к GPIO по номеру SYSFS
 led = GPIO.PA+7                 # устанавливаем PA7 для диода
 
 GPIO.setup(led, GPIO.OUT)       # устанавливаем диод (LED) как output
