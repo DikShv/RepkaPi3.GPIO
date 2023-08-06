@@ -22,6 +22,24 @@ RepkaPi.GPIO
 
 Вы так же можете перед установкой в файле RepkaPi/constants.py установить в константе GPIO.DEFAULTBOARD вашу модель платы, это позволит не выбирать модель платы в коде
 
+Что бы использовать не из под root, а Вашем пользоватетем необходимо выполнить следующие действия
+
+Добавить группу и добавить в эту группу Вашего пользователя
+
+  $ sudo groupadd gpio
+
+  $ sudo usermod -aG gpio <ваш пользователь>
+
+Создаем файл
+
+  $ cat /etc/udev/rules.d/99-com.rules
+
+Вставляем в файли следующий текст
+
+KERNEL=="gpio*", MODE:="0660", GROUP:="gpio"
+KERNEL=="pwm*", MODE:="0660", GROUP:="gpio"
+KERNEL=="gpiochip*", MODE:="0660", GROUP:="gpio"
+SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/gpio && chmod -R 777 /sys/class/gpio && chown -R root:gpio /sys/class/gpio/* && chmod -R 777 /sys/class/gpio/* && chown -R root:gpio /sys/class/pwm && chmod -R 777 /sys/class/pwm && chown -R root:gpio /sys/class/pwm/* && chmod -R 777 /sys/class/pwm/* && chown -R root:gpio /sys/devices/platform/soc/*.pinctrl/gpio && chmod -R 777 /sys/devices/platform/soc/*.pinctrl/gpio && chown -R root:gpio /sys/devices/platform/soc/*.pwm/pwm && chmod -R 777 /sys/devices/platform/soc/*.pwm/pwm '"
 
 Поддерживаемые модели платы
 ----------
