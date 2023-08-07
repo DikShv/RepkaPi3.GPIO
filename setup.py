@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import os
@@ -21,7 +21,7 @@ setup(
     name="RepkaPi.GPIO",
     version=version,
     author="@screatorpro",
-    description=("A drop-in replacement for RPi.GPIO for the Repka Pi"),
+    description=("Библиотека замена RPi.GPIO для Repka Pi"),
     long_description="\n\n".join([README, CONTRIB, CHANGES]),
     license="MIT",
     keywords="Repka Pi RepkaPi gpio",
@@ -36,8 +36,6 @@ setup(
         "Topic :: Education",
         "Topic :: System :: Hardware",
         "Topic :: System :: Hardware :: Hardware Drivers",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
