@@ -46,6 +46,10 @@ RepkaPi.GPIO
 
     SUBSYSTEM=="pwm*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/pwm && chmod -R 777 /sys/class/pwm && chown -R root:gpio /sys/class/pwm/* && chmod -R 777 /sys/class/pwm/* && chown -R root:gpio /sys/class/pwm/pwmchip0/* && chmod -R 777 /sys/class/pwm/pwmchip0/* && chown -R root:gpio /sys/devices/platform/soc/*.pwm/pwm && chmod -R 777 /sys/devices/platform/soc/*.pwm/pwm '"
 
+После перезагружаем систему
+
+    sudo reboot
+
 
 Поддерживаемые модели платы
 ----------
