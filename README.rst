@@ -35,7 +35,7 @@ RepkaPi.GPIO
 
 То же, что и RPi.GPIO, но с новой функцией выбора платы Repka Pi.
 
-
+.. code-block:: text
     import RepkaPi.GPIO as GPIO
 
     GPIO.setboard(GPIO.REPKAPI3) # не обязательно если в constants.py при установки библиотеки установить константу GPIO.DEFAULTBOARD
@@ -55,9 +55,9 @@ RepkaPi.GPIO
 Если вы хотите использовать библиотеку как пользователь без полномочий root, вам необходимо сначала настроить правило UDEV, чтобы предоставить вам разрешения.
 Это можно сделать следующим образом:
 
-``$ sudo usermod -aG gpio <ваш пользователь>``
+  $ sudo usermod -aG gpio <ваш пользователь>
 
-``$ sudo nano /etc/udev/rules.d/99-gpio.rules``
+  $ sudo nano /etc/udev/rules.d/99-gpio.rules
 
 Это должно добавить вашего пользователя в группу GPIO, создать новое правило UDEV и открыть его в текстовом редакторе Nano.
 
