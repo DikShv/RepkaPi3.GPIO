@@ -66,13 +66,9 @@ RepkaPi.GPIO
 .. code-block:: text
 
     KERNEL=="gpio*", MODE:="0660", GROUP:="gpio"
-
     KERNEL=="pwm*", MODE:="0660", GROUP:="gpio"
-
     KERNEL=="gpiochip*", MODE:="0660", GROUP:="gpio"
-
     SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/gpio && chmod -R 777 /sys/class/gpio && chown -R root:gpio /sys/class/gpio/* && chmod -R 777 /sys/class/gpio/* && chown -R root:gpio /sys/devices/platform/soc/*.pinctrl/gpio && chmod -R 777 /sys/devices/platform/soc/*.pinctrl/gpio'"
-
     SUBSYSTEM=="pwm*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/pwm && chmod -R 777 /sys/class/pwm && chown -R root:gpio /sys/class/pwm/* && chmod -R 777 /sys/class/pwm/* && chown -R root:gpio /sys/class/pwm/pwmchip0/* && chmod -R 777 /sys/class/pwm/pwmchip0/* && chown -R root:gpio /sys/devices/platform/soc/*.pwm/pwm && chmod -R 777 /sys/devices/platform/soc/*.pwm/pwm '"
 
 Нажмите ``ctrl-x``, ``Y`` и ``ENTER``, чтобы сохранить и закрыть файл.
