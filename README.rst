@@ -22,34 +22,6 @@ RepkaPi.GPIO
 
 Вы так же можете перед установкой в файле RepkaPi/constants.py установить в константе GPIO.DEFAULTBOARD вашу модель платы, это позволит не выбирать модель платы в коде
 
-Что бы использовать не из-под root, а Вашем пользователем необходимо выполнить следующие действия
-
-Добавить группу и добавить в эту группу Вашего пользователя
-
-  $ sudo groupadd gpio
-
-  $ sudo usermod -aG gpio <ваш пользователь>
-
-Создаем файл
-
-  $ sudo nano /etc/udev/rules.d/99-com.rules
-
-Вставляем в файли следующий текст
-
-    KERNEL=="gpio*", MODE:="0660", GROUP:="gpio"
-
-    KERNEL=="pwm*", MODE:="0660", GROUP:="gpio"
-
-    KERNEL=="gpiochip*", MODE:="0660", GROUP:="gpio"
-
-    SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/gpio && chmod -R 777 /sys/class/gpio && chown -R root:gpio /sys/class/gpio/* && chmod -R 777 /sys/class/gpio/* && chown -R root:gpio /sys/devices/platform/soc/*.pinctrl/gpio && chmod -R 777 /sys/devices/platform/soc/*.pinctrl/gpio'"
-
-    SUBSYSTEM=="pwm*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/pwm && chmod -R 777 /sys/class/pwm && chown -R root:gpio /sys/class/pwm/* && chmod -R 777 /sys/class/pwm/* && chown -R root:gpio /sys/class/pwm/pwmchip0/* && chmod -R 777 /sys/class/pwm/pwmchip0/* && chown -R root:gpio /sys/devices/platform/soc/*.pwm/pwm && chmod -R 777 /sys/devices/platform/soc/*.pwm/pwm '"
-
-После перезагружаем систему
-
-    sudo reboot
-
 
 Поддерживаемые модели платы
 ----------
@@ -83,7 +55,7 @@ RepkaPi.GPIO
 Если вы хотите использовать библиотеку как пользователь без полномочий root, вам необходимо сначала настроить правило UDEV, чтобы предоставить вам разрешения.
 Это можно сделать следующим образом:
 
-``$ sudo usermod -aG gpio <current_user>``
+``$ sudo usermod -aG gpio <ваш пользователь>``
 
 ``$ sudo nano /etc/udev/rules.d/99-gpio.rules``
 
@@ -93,8 +65,15 @@ RepkaPi.GPIO
 
 .. code-block:: text
 
-   SUBSYSTEM=="gpio", KERNEL=="gpio*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value ; chmod 660 /sys%p/active_low /sys%p/direction /sys%p/edge /sys%p/value'"
-   SUBSYSTEM=="gpio", KERNEL=="gpiochip*", ACTION=="add", PROGRAM="/bin/sh -c 'chown root:gpio /sys/class/gpio/export /sys/class/gpio/unexport ; chmod 220 /sys/class/gpio/export /sys/class/gpio/unexport'" 
+    KERNEL=="gpio*", MODE:="0660", GROUP:="gpio"
+
+    KERNEL=="pwm*", MODE:="0660", GROUP:="gpio"
+
+    KERNEL=="gpiochip*", MODE:="0660", GROUP:="gpio"
+
+    SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/gpio && chmod -R 777 /sys/class/gpio && chown -R root:gpio /sys/class/gpio/* && chmod -R 777 /sys/class/gpio/* && chown -R root:gpio /sys/devices/platform/soc/*.pinctrl/gpio && chmod -R 777 /sys/devices/platform/soc/*.pinctrl/gpio'"
+
+    SUBSYSTEM=="pwm*", PROGRAM="/bin/sh -c 'chown -R root:gpio /sys/class/pwm && chmod -R 777 /sys/class/pwm && chown -R root:gpio /sys/class/pwm/* && chmod -R 777 /sys/class/pwm/* && chown -R root:gpio /sys/class/pwm/pwmchip0/* && chmod -R 777 /sys/class/pwm/pwmchip0/* && chown -R root:gpio /sys/devices/platform/soc/*.pwm/pwm && chmod -R 777 /sys/devices/platform/soc/*.pwm/pwm '"
 
 Нажмите ``ctrl-x``, ``Y`` и ``ENTER``, чтобы сохранить и закрыть файл.
 
