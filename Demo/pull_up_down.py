@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# pull_up_down пока не поддерживается
 
 import RepkaPi.GPIO as GPIO
 

@@ -140,7 +140,7 @@ def setup(channel, direction, initial=None, pull_up_down=None):
 
     if pull_up_down is not None:
         if _gpio_warnings:
-            warnings.warn("Pull up/down setting are not (yet) fully supported, continuing anyway. Use GPIO.setwarnings(False) to disable warnings.", stacklevel=2)
+            warnings.warn("Pull up/down пока не поддерживаются, но выполнение продолжается. Используйте GPIO.setwarnings(False) что бы отключить предупреждение.", stacklevel=2)
 
     if isinstance(channel, list):
         for ch in channel:
